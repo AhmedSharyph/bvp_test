@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Visit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body { font-family: Arial; padding: 15px; background: #f8f9fa; }
+    h2 { text-align: center; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    input, select, textarea, button {
+      width: 100%; padding: 10px; margin-top: 5px; font-size: 16px;
+    }
+    button {
+      background: #198754; color: white; border: none;
+      margin-top: 15px; border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Patient Visit</h2>
+
+<label>Select Patient</label>
+<select id="patient"></select>
+
+<label>Visit Type</label>
+<select id="visit_type">
+  <option>Nurse Visit</option>
+  <option>Doctor Visit</option>
+  <option>Non-Routine Visit</option>
+</select>
+
+<label>Findings</label>
+<textarea id="findings"></textarea>
+
+<label>Actions Taken</label>
+<textarea id="actions_taken"></textarea>
+
+<label>Next Visit Date</label>
+<input type="date" id="next_visit_date">
+
+<label>Entered By</label>
+<input id="entered_by" placeholder="Staff name">
+
+<button onclick="saveVisit()">Save Visit</button>
+
+<p id="status"></p>
+
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz_TizFmrdtTFslZdHydEaBXhqOkANnNH-NKBWISnlbeCMvZyRecjeCl1wXZpqQYOu1/exec";
+
+function loadPatients() {
+  fetch(GAS_URL + "?action=getPatients")
+    .then(r => r.json())
+    .then(data => {
+      data.forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p.national_id;
+        opt.text = p.full_name + " (" + p.national_id + ")";
+        patient.appendChild(opt);
+      });
+    });
+}
+
+function saveVisit() {
+  const payload = {
+    action: "addVisit",
+    national_id: patient.value,
+    visit_type: visit_type.value,
+    findings: findings.value,
+    actions_taken: actions_taken.value,
+    next_visit_date: next_visit_date.value,
+    entered_by: entered_by.value
+  };
+
+  fetch(GAS_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(() => status.innerText = "Visit saved successfully.")
+  .catch(() => status.innerText = "Network error");
+}
+
+loadPatients();
+</script>
+
+</body>
+</html>
