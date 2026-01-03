@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body { font-family: Arial; padding: 15px; background: #f8f9fa; }
+    h2 { text-align: center; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    input, select, textarea, button {
+      width: 100%; padding: 10px; margin-top: 5px; font-size: 16px;
+    }
+    button {
+      background: #0d6efd; color: #fff; border: none;
+      margin-top: 15px; border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Bedridden Patient Registration</h2>
+
+<label>National ID *</label>
+<input id="national_id" required>
+
+<label>Full Name *</label>
+<input id="full_name">
+
+<label>Date of Birth</label>
+<input type="date" id="dob">
+
+<label>Sex</label>
+<select id="sex">
+  <option value="">Select</option>
+  <option>Male</option>
+  <option>Female</option>
+</select>
+
+<label>Address</label>
+<textarea id="address"></textarea>
+
+<label>Island</label>
+<input id="island">
+
+<label>Contact Number</label>
+<input id="contact">
+
+<label>Caregiver Name</label>
+<input id="caregiver_name">
+
+<label>Caregiver Contact</label>
+<input id="caregiver_contact">
+
+<label>Remarks</label>
+<textarea id="remarks"></textarea>
+
+<button onclick="registerPatient()">Register Patient</button>
+
+<p id="status"></p>
+
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz_TizFmrdtTFslZdHydEaBXhqOkANnNH-NKBWISnlbeCMvZyRecjeCl1wXZpqQYOu1/exec";
+
+function registerPatient() {
+  const payload = {
+    action: "registerPatient",
+    national_id: national_id.value.trim(),
+    full_name: full_name.value.trim(),
+    dob: dob.value,
+    sex: sex.value,
+    address: address.value,
+    island: island.value,
+    contact: contact.value,
+    caregiver_name: caregiver_name.value,
+    caregiver_contact: caregiver_contact.value,
+    remarks: remarks.value
+  };
+
+  fetch(GAS_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (res.status === "exists") {
+      status.innerText = "Patient already registered.";
+    } else {
+      status.innerText = "Patient registered successfully.";
+    }
+  })
+  .catch(() => status.innerText = "Network error");
+}
+</script>
+
+</body>
+</html>
