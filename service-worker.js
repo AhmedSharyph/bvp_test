@@ -1,13 +1,24 @@
-self.addEventListener("install", e => {
-  e.waitUntil(
-    caches.open("visit-cache").then(cache =>
-      cache.addAll(["./", "./index.html", "./app.js", "./db.js"])
-    )
+const CACHE_NAME = "bedridden-pwa-v1";
+const FILES_TO_CACHE = [
+  "./",
+  "./index.html",
+  "./register.html",
+  "./visit.html",
+  "./style.css",
+  "./app.js",
+  "./manifest.json"
+];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
   );
 });
 
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(res => res || fetch(e.request))
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(
+      response => response || fetch(event.request)
+    )
   );
 });
