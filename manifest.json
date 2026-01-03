@@ -1,8 +1,20 @@
 {
-  "name": "Bedridden Patient Visit",
-  "short_name": "VisitApp",
+  "name": "Bedridden Patient Visit Program",
+  "short_name": "BedriddenVisit",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0d6efd"
+  "theme_color": "#0d6efd",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
