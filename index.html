@@ -1,37 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <title>Bedridden Patient Program</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bedridden Patient Visit</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h2>Bedridden Patient Visit</h2>
+  <h2>Bedridden Patient Visit Program</h2>
 
-  <label>National ID</label>
-  <input id="nid" placeholder="A123456">
+  <a class="btn" href="register.html">➕ Register Patient</a>
+  <a class="btn green" href="visit.html">🩺 Record Visit</a>
 
-  <label>Visit Type</label>
-  <select id="visitType">
-    <option>Nurse Visit</option>
-    <option>Doctor Visit</option>
-    <option>Non-Routine Visit</option>
-  </select>
+  <p class="note">Works offline. Syncs when internet is available.</p>
 
-  <label>Findings</label>
-  <textarea id="findings"></textarea>
-
-  <label>Actions Taken</label>
-  <textarea id="actions"></textarea>
-
-  <button onclick="saveVisit()">Save Visit</button>
-  <button onclick="syncData()">Sync</button>
-
-  <p id="status"></p>
-
-  <script src="db.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
